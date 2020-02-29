@@ -1,28 +1,33 @@
 import java.util.ArrayList;
-import java.util.function.BinaryOperator;
-import java.util.stream.Stream;
+import java.util.Formatter;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 
 public class Application {
 
     @FunctionalInterface
-    interface VATFunction {
-        Product calculate(Product product);
+    interface VATFunction extends Function<Product, Product> {
+        @Override
+        Product apply(Product product);
 
     }
 
     @FunctionalInterface
-    interface IsHealthPredicate {
+    interface IsHealthPredicate extends Predicate<Product> {
         boolean test(Product product);
     }
 
     @FunctionalInterface
-    interface IsSHPredicate {
+    interface IsSHPredicate extends Predicate<Product> {
         boolean test(Product product);
     }
 
     @FunctionalInterface
-    interface ConsolePrintConsumer {
-        void consume(Product product);
+    interface ConsolePrintConsumer extends Consumer<Product> {
+        
+        void accept(Product product);
     }
 
     public static void main(String[] args) {
@@ -39,20 +44,24 @@ public class Application {
         list.add(item4);
         list.add(item5);
 
-       /* IsHealthPredicate p1 = product -> "Health".equals(product.getCategory());
-        IsSHPredicate p2 = product -> "Second Hand".equals(product.getCategory());
+
+        IsHealthPredicate p1 = product -> !product.getCategory().equals("Second Hand");
+        IsSHPredicate p2 = product -> !product.getCategory().equals("Health");
 
 
-        VATFunction function = new VATFunction -> {
-            float tax = (tax * 118) / 100;
-            return tax;
-        }
+        VATFunction v1 = product -> {
+            product.setPrice(product.getPrice() + product.getPrice() * 118 / 100);
+            return product;
+        };
 
-        */
-        Stream<Object> object = list.stream()
-                .filter( (name) -> !name.getCategory().equals("Second Hand"))
-                .filter( (name) -> !name.getCategory().equals("Health"))
-                .map((name) -> name.getPrice())
+        ConsolePrintConsumer c1 = product -> System.out.println(product);
+
+        list.stream()
+                .filter(p1)
+                .filter(p2)
+                .map(v1)
+                .forEach(c1);
+
 
 
     }

@@ -45,11 +45,6 @@ public class Product{
 
     @Override
     public String toString() {
-        return "Product{" +
-                "category='" + category + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price + "€" +
-                ", quantity=" + quantity +
-                '}';
+        return String.format("Product { category = '%s', name = '%s', price = %.2f €, quantity = %d}", category, name, price, quantity);
     }
 }
