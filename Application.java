@@ -44,7 +44,7 @@ public class Application {
         IsSHPredicate p2 = product -> !product.getCategory().equals("Health");
 
         VATFunction v1 = product -> {
-            product.setPrice(product.getPrice() + product.getPrice() * 118 / 100);
+            product.setPrice(product.getPrice() + product.getPrice() * 0.18f % 100);
             return product;
         };
 
