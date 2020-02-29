@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -9,9 +8,7 @@ public class Application {
 
     @FunctionalInterface
     interface VATFunction extends Function<Product, Product> {
-        @Override
         Product apply(Product product);
-
     }
 
     @FunctionalInterface
@@ -26,7 +23,6 @@ public class Application {
 
     @FunctionalInterface
     interface ConsolePrintConsumer extends Consumer<Product> {
-        
         void accept(Product product);
     }
 
@@ -44,10 +40,8 @@ public class Application {
         list.add(item4);
         list.add(item5);
 
-
         IsHealthPredicate p1 = product -> !product.getCategory().equals("Second Hand");
         IsSHPredicate p2 = product -> !product.getCategory().equals("Health");
-
 
         VATFunction v1 = product -> {
             product.setPrice(product.getPrice() + product.getPrice() * 118 / 100);
@@ -61,9 +55,5 @@ public class Application {
                 .filter(p2)
                 .map(v1)
                 .forEach(c1);
-
-
-
     }
-
 }
